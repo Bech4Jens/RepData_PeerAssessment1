@@ -85,6 +85,7 @@ matplot(Data5Min[,1], Data5Min[,2], type="l", xlab="5 minute interval", col="red
 ```
 
 ![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
+
 Next step is to estimate the 5-minute interval that, on average across all the days in the dataset, contains the maximum number of steps:
 
 ```r
@@ -132,27 +133,6 @@ Finally I will create a histogram of the total number of steps taken each day, a
 ```r
 #Sum steps by day
 StepsDay <- aggregate(steps ~ date, data=DataRevised, FUN=sum)
-#Plot histogram
-hist(StepsDay[,2], main="Total Number of Steps Taken Each Day", xlab="steps per day")
-```
-
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
-
-```r
-#Calculate and report the mean and median total number of steps taken per day
-mean(StepsDay[,2])
-```
-
-```
-## [1] 10766
-```
-
-```r
-median(StepsDay[,2])
-```
-
-```
-## [1] 10766
 ```
 Then I can plot the histogram:
 
@@ -161,10 +141,6 @@ hist(StepsDay[,2], main="Total Number of Steps Taken Each Day", xlab="steps per 
 ```
 
 ![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
-
-```r
-#Calculate and report the mean and median total number of steps taken per day
-```
 Finally, I can estimate and report the mean and median of the revised data:
 
 ```r
@@ -207,7 +183,7 @@ DataRevFac <- DataRevised #Define new dataset to hold the new factor variable
 DataRevFac$week <- as.factor(DataRevFac$week) #Define new variable as factor
 ```
 
-Next step is to create a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). First I aggregate the average steps by 5 minute interval and seperate the observations into "weekday" and "weekend"
+Next step is to create a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). First I aggregate the average steps by 5 minute interval and seperate the observations into "weekday" and "weekend":
 
 ```r
 #Average daily steps by 5 minute interval over weekdays and weekends
@@ -227,4 +203,4 @@ matplot(StepsWeekEnd[,1], StepsWeekEnd[,2], type="l", xlab="5 minute interval", 
 
 ![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
 
-Thus, we see that the steps are clusted differently during weeksdays, where the most steps are taken in the beginnign of the days. During weekends, the amount of steps seem to be more equally distributed. This is most likely a result of a fixed work schedule during weekdays, and more free time and flexibility during weekends
+Thus, we see that the steps are clusted differently during weeksdays, where the most steps are taken in the beginnign of the days. During weekends, the amount of steps seem to be more equally distributed. This is most likely a result of a fixed work schedule during weekdays, and more free time and flexibility during weekends.
