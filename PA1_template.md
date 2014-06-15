@@ -38,11 +38,17 @@ median number of steps taken each day.
 ```r
 #Sum steps by day
 StepsDay <- aggregate(steps ~ date, data=DataNoNA, FUN=sum)
-#Plot histogram
+```
+
+Now we create the histogram
+
+```r
 hist(StepsDay[,2], main="Total Number of Steps Taken Each Day", xlab="steps per day")
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
+
+Finally, we calculate and report the mean and median
 
 ```r
 #Calculate and report the mean and median total number of steps taken per day
@@ -63,18 +69,22 @@ median(StepsDay[,2])
 Thus, the median of the dataset is 10,765 steps per day and the average is 10,766.19 steps per day
 
 ## What is the average daily activity pattern?
-Now I create a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis):
+Now I create a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis). First I aggregate the average steps by 5 minute interval
 
 ```r
 #Estimate the average steps by 5-minute time interval
 Data5Min <- aggregate(steps ~ interval, data=DataNoNA, FUN=mean)
+```
+
+Then I create the plot: 
+
+```r
 #Make plot
 matplot(Data5Min[,1], Data5Min[,2], type="l", xlab="5 minute interval", col="red", 
         ylab="Average number of steps taken", main="Average Number of Steps by 5 Minute Interval")
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
-
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
 Next step is to estimate the 5-minute interval that, on average across all the days in the dataset, contains the maximum number of steps:
 
 ```r
@@ -117,7 +127,7 @@ DataRevised[,2] <- as.Date(DataRevised[,2], format="%Y-%m-%d") #Change to date f
 DataRevised[,3] <- as.numeric(as.character(DataRevised[,3])) #Change to numeric format
 ```
 
-Finally I will create a histogram of the total number of steps taken each day, and calculate and report the mean and median total number of steps taken per day:
+Finally I will create a histogram of the total number of steps taken each day, and calculate and report the mean and median total number of steps taken per day. First I agregate the steps taken per day:
 
 ```r
 #Sum steps by day
@@ -126,7 +136,36 @@ StepsDay <- aggregate(steps ~ date, data=DataRevised, FUN=sum)
 hist(StepsDay[,2], main="Total Number of Steps Taken Each Day", xlab="steps per day")
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
+
+```r
+#Calculate and report the mean and median total number of steps taken per day
+mean(StepsDay[,2])
+```
+
+```
+## [1] 10766
+```
+
+```r
+median(StepsDay[,2])
+```
+
+```
+## [1] 10766
+```
+Then I can plot the histogram:
+
+```r
+hist(StepsDay[,2], main="Total Number of Steps Taken Each Day", xlab="steps per day")
+```
+
+![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
+
+```r
+#Calculate and report the mean and median total number of steps taken per day
+```
+Finally, I can estimate and report the mean and median of the revised data:
 
 ```r
 #Calculate and report the mean and median total number of steps taken per day
@@ -168,21 +207,24 @@ DataRevFac <- DataRevised #Define new dataset to hold the new factor variable
 DataRevFac$week <- as.factor(DataRevFac$week) #Define new variable as factor
 ```
 
-Next step is to create a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis):
+Next step is to create a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). First I aggregate the average steps by 5 minute interval and seperate the observations into "weekday" and "weekend"
 
 ```r
 #Average daily steps by 5 minute interval over weekdays and weekends
 StepsWeekDay <- aggregate(steps ~ interval, data=DataRevFac[DataRevFac$week=="Weekday",], FUN=mean)
 StepsWeekEnd <- aggregate(steps ~ interval, data=DataRevFac[DataRevFac$week=="Weekend",], FUN=mean)
-#Make the plot
-par(mfrow=c(2,1)) #Define the window for the plot
-#Produce the two plot in the same window
-matplot(StepsWeekDay[,1], StepsWeekDay[,2], type="l", xlab="5 minute interval", col="red", ylim=c(0,300), 
+```
+
+Then I can make the two plots comparing the average number of steps taken by 5 minute interval on weekdays and weekends:
+
+```r
+par(mfrow=c(2,1)) 
+matplot(StepsWeekDay[,1], StepsWeekDay[,2], type="l", xlab="5 minute interval", col="red", ylim=c(0,250), 
         ylab="Average number of steps taken", main="Weekdays: Average Number of Steps by 5 Minute Interval")
-matplot(StepsWeekEnd[,1], StepsWeekEnd[,2], type="l", xlab="5 minute interval", col="green", ylim=c(0,300),
+matplot(StepsWeekEnd[,1], StepsWeekEnd[,2], type="l", xlab="5 minute interval", col="green", ylim=c(0,250),
         ylab="Average number of steps taken", main="Weekend: Average Number of Steps by 5 Minute Interval")
 ```
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
+![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
 
 Thus, we see that the steps are clusted differently during weeksdays, where the most steps are taken in the beginnign of the days. During weekends, the amount of steps seem to be more equally distributed. This is most likely a result of a fixed work schedule during weekdays, and more free time and flexibility during weekends
